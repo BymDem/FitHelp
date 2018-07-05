@@ -3,13 +3,13 @@ package models;
 import java.util.Date;
 import java.util.List;
 
-public class ExerciseTable_TrainsDB {
+public class Exercise {
 
     private String name;
     private String type;
-    private List<SetTable_TrainsDB> setList;
+    private List<Set> setList;
 
-    public ExerciseTable_TrainsDB(ExerciseTable_TrainsDB d)
+    public Exercise(Exercise d)
     {
         name = d.name;
         type = d.type;
@@ -17,7 +17,7 @@ public class ExerciseTable_TrainsDB {
 
     }
 
-    public ExerciseTable_TrainsDB(String n, String t, List<SetTable_TrainsDB> set_list)
+    public Exercise(String n, String t, List<Set> set_list)
     {
         name = n;
         type = t;
@@ -34,7 +34,7 @@ public class ExerciseTable_TrainsDB {
         return type;
     }
 
-    public List<SetTable_TrainsDB> getSetList()
+    public List<Set> getSetList()
     {
         return setList;
     }
@@ -49,7 +49,7 @@ public class ExerciseTable_TrainsDB {
         type = t;
     }
 
-    public void setSetList(List<SetTable_TrainsDB> set_list)
+    public void setSetList(List<Set> set_list)
     {
         setList = set_list;
     }

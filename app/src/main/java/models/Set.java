@@ -1,17 +1,17 @@
 package models;
 
-public class SetTable_TrainsDB {
+public class Set {
 
     private int weight;
     private int number;
 
-    public SetTable_TrainsDB(SetTable_TrainsDB d)
+    public Set(Set d)
     {
         weight = d.weight;
         number = d.number;
     }
 
-    public SetTable_TrainsDB(int w, int n)
+    public Set(int w, int n)
     {
         weight = w;
         number = n;
