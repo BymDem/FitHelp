@@ -19,16 +19,11 @@ public class SqlLists {
         private void createTrainList()
         {
             //-- Таблица: Exercise
-            TrainSql.add("CREATE TABLE Exercise (id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, train_id INTEGER REFERENCES Train (id));");
-            //-- Таблица: ExerciseName
-            TrainSql.add("CREATE TABLE ExerciseName (id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, exercise_id INTEGER REFERENCES Exercise (id), name TEXT UNIQUE);");
+            TrainSql.add("CREATE TABLE Exercise (id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, train_id INTEGER REFERENCES Train (id), type TEXT, exerciseName TEXT);");
             //-- Таблица: Set
             TrainSql.add("CREATE TABLE SSet (weight INTEGER, number INTEGER, id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, exercise_id INTEGER REFERENCES Exercise (id));");
             //-- Таблица: Train
             TrainSql.add("CREATE TABLE Train (id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, name TEXT, data DATE);");
-            //-- Таблица: Type
-            TrainSql.add("CREATE TABLE Type (id INTEGER PRIMARY KEY UNIQUE, name TEXT UNIQUE, exercise_id INTEGER REFERENCES Exercise (id));");
-
         }
 
         private void createDietList()

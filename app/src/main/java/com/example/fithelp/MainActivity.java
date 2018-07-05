@@ -2,6 +2,7 @@ package com.example.fithelp;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import models.SqlLists;
@@ -23,13 +25,12 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
 
-    private static final String TRAIN_DATABASE_NAME = "TrainFitHelper";
-    private static final String DIET_DATABASE_NAME = "DietFitHelper";
-    private static final String MEAS_DATABASE_NAME = "MeasFitHelper";
-    private static final int VERSION = 1;
-    SQLiteDatabase train;
-    DBHelper trainDataBase;
-    SqlLists listOfSqlExec;
+    public static final String TRAIN_DATABASE_NAME = "TrainFitHelper";
+    public static final String DIET_DATABASE_NAME = "DietFitHelper";
+    public static final String MEAS_DATABASE_NAME = "MeasFitHelper";
+    public static final int VERSION = 1;
+    public static final SqlLists listOfSqlExec = new SqlLists();
+    public DataBase db_train;
 
 
 
@@ -84,13 +85,29 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        db_train = new DataBase(this, TRAIN_DATABASE_NAME, listOfSqlExec.TrainSql);
+        db_train.open();
+        Cursor t = db_train.getAllDataFromTable("Train");
+        t.moveToFirst();
+
+        ArrayList<String> ar = new ArrayList<String>();
+        while (true)
+        {
+            ar.add(t.getString(t.getColumnIndex("name")));
+            if(t.isLast())
+                break;
+            else
+                t.moveToNext();
+        }
+
+         String[] dataTr =ar.toArray(new String[0]);
+
+//      String[] dataTr = {"dsdsdsd", "dsds"};
         ListView gv = findViewById(R.id.TrainView);
-        String[] dataTr = {"Train", "Train", "Train", "Train", "Train", "Train", "Train", "Train", "Train", "Train", "Train", "Train", "Train", "Train", "Train", "Train", "Train", "Train", "Train", "Train", "Train", "Train"};
-        gv.setAdapter(new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, dataTr ));
+
+        gv.setAdapter(new ArrayAdapter<String>(MainActivity.this, R.layout.support_simple_spinner_dropdown_item, dataTr));
 
         gv.setOnItemClickListener(onItemClickListener);
-
-        //trainDataBase = new DBHelper( train, TRAIN_DATABASE_NAME, listOfSqlExec.TrainSql,VERSION);
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
