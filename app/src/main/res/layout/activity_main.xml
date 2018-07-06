@@ -7,19 +7,9 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <menu xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
-        <item
-            android:id="@+id/add_button"
-            android:icon="@drawable/ic_stat_add"
-            android:orderInCategory="100"
-            android:title="item_add_menu"
-            android:showAsAction="always" />
-    </menu>
-
     <ListView
         android:id="@+id/TrainView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/navigation"
@@ -31,7 +21,7 @@
 
     <ListView
         android:id="@+id/DietView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/navigation"
@@ -43,7 +33,7 @@
 
     <ListView
         android:id="@+id/MeasView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/navigation"
