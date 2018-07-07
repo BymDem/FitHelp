@@ -7,6 +7,19 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/ActionButtonActivityMain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintBottom_toTopOf="@+id/navigation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_stat_add" />
+
     <ListView
         android:id="@+id/TrainView"
         android:layout_width="0dp"

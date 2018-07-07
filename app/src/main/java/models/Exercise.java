@@ -7,21 +7,21 @@ public class Exercise {
 
     private String name;
     private String type;
-    private List<Set> setList;
+    private int id;
 
     public Exercise(Exercise d)
     {
         name = d.name;
         type = d.type;
-        setList = d.setList;
+        id = d.id;
 
     }
 
-    public Exercise(String n, String t, List<Set> set_list)
+    public Exercise(String n, String t, int i)
     {
         name = n;
         type = t;
-        setList = set_list;
+        id = i;
     }
 
     public String getName()
@@ -34,9 +34,9 @@ public class Exercise {
         return type;
     }
 
-    public List<Set> getSetList()
+    public int getId()
     {
-        return setList;
+        return id;
     }
 
     public void setName(String n)
@@ -49,8 +49,8 @@ public class Exercise {
         type = t;
     }
 
-    public void setSetList(List<Set> set_list)
+    public void setId(int i)
     {
-        setList = set_list;
+        id = i;
     }
 }

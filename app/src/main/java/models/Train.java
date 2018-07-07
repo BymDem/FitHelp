@@ -7,7 +7,7 @@ public class Train {
 
     private String name;
     private Date date;
-    private List<Exercise> exerciseList;
+    private int id;
 
     public Train(Train d)
     {
@@ -31,9 +31,9 @@ public class Train {
         return date;
     }
 
-    public List<Exercise> getExerciseList()
+    public int getId()
     {
-        return exerciseList;
+        return id;
     }
 
     public void setName(String n)
@@ -46,8 +46,8 @@ public class Train {
         date = d;
     }
 
-    public void setExerciseList(List<Exercise> exercise_list)
+    public void setId(int i)
     {
-        exerciseList = exercise_list;
+        id = i;
     }
 }

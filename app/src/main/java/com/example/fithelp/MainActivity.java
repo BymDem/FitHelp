@@ -5,6 +5,8 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -65,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.TrainView:
                     Intent intent = new Intent(MainActivity.this, TrainActivity.class);
                     intent.putExtra("train_position_activity_main", position);
+                    intent.putExtra("IsItNew", false);
                     startActivity(intent);
                     break;
                 case R.id.DietView:
@@ -87,9 +91,56 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        CreateDataBases();
+
+
+        ListView gv = findViewById(R.id.TrainView);
+        gv.setAdapter(new ArrayAdapter<String>(MainActivity.this, R.layout.support_simple_spinner_dropdown_item, getDataForListView()));
+        gv.setOnItemClickListener(onItemClickListener);
+
+
+        FloatingActionButton create_train = findViewById(R.id.ActionButtonActivityMain);
+        create_train.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if( findViewById(R.id.TrainView).getVisibility() == View.VISIBLE) {
+                    Intent intent = new Intent(MainActivity.this, TrainActivity.class);
+                    intent.putExtra("IsItNew", true);
+                    startActivity(intent);
+                }
+//                if( findViewById(R.id.TrainView).getVisibility() == View.VISIBLE) {
+//                    Intent intent = new Intent(MainActivity.this, TrainActivity.class);
+//                    intent.putExtra("IsItNew", true);
+//                    startActivity(intent);
+//                }
+//                if( findViewById(R.id.TrainView).getVisibility() == View.VISIBLE) {
+//                    Intent intent = new Intent(MainActivity.this, TrainActivity.class);
+//                    intent.putExtra("IsItNew", true);
+//                    startActivity(intent);
+//                }
+
+            }
+        });
+
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+    }
+
+
+
+    private void CreateDataBases()
+    {
         db_train = new DataBase(this, TRAIN_DATABASE_NAME, listOfSqlExec.TrainSql);
+    }
+
+    private String[] getDataForListView()
+    {
         db_train.open();
         Cursor t = db_train.getAllDataFromTable("Train");
+
+        if(t.getCount() == 0)
+            return new String[]{};
+
         t.moveToFirst();
 
         ArrayList<String> ar = new ArrayList<String>();
@@ -102,16 +153,9 @@ public class MainActivity extends AppCompatActivity {
                 t.moveToNext();
         }
 
-         String[] dataTr =ar.toArray(new String[0]);
+        String[] dataTr =ar.toArray(new String[0]);
 
 //      String[] dataTr = {"dsdsdsd", "dsds"};
-        ListView gv = findViewById(R.id.TrainView);
-
-        gv.setAdapter(new ArrayAdapter<String>(MainActivity.this, R.layout.support_simple_spinner_dropdown_item, dataTr));
-
-        gv.setOnItemClickListener(onItemClickListener);
-
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        return dataTr;
     }
 }
