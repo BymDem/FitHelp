@@ -25,6 +25,10 @@
         <activity
             android:name=".ExerciseActivity"
             android:label="@string/title_activity_exercise"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ExerciseChoiceActivity"
+            android:label="@string/title_activity_exercise_choice"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

@@ -9,8 +9,26 @@
     tools:showIn="@layout/activity_exercise">
 
     <ListView
-        android:layout_width="384dp"
-        android:layout_height="447dp" />
+        android:id="@+id/_dynamic"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/editTextNumber"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/ActionButtonActivityMain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintBottom_toBottomOf="@+id/_dynamic"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_stat_add" />
 
     <EditText
         android:id="@+id/editTextWeight"
@@ -43,6 +61,7 @@
         android:ems="10"
         android:hint="Количество"
         android:inputType="number"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/editTextWeight"

@@ -45,12 +45,12 @@ public class MainActivity extends AppCompatActivity {
                     findViewById(R.id.DietView).setVisibility(View.INVISIBLE);
                     findViewById(R.id.MeasView).setVisibility(View.INVISIBLE);
                     return true;
-                case R.id.navigation_dashboard:
+                case R.id.navigation_diet:
                     findViewById(R.id.TrainView).setVisibility(View.INVISIBLE);
                     findViewById(R.id.DietView).setVisibility(View.VISIBLE);
                     findViewById(R.id.MeasView).setVisibility(View.INVISIBLE);
                     return true;
-                case R.id.navigation_notifications:
+                case R.id.navigation_meas:
                     findViewById(R.id.TrainView).setVisibility(View.INVISIBLE);
                     findViewById(R.id.DietView).setVisibility(View.INVISIBLE);
                     findViewById(R.id.MeasView).setVisibility(View.VISIBLE);
@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.new_button, menu);
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -95,7 +96,14 @@ public class MainActivity extends AppCompatActivity {
 
 
         ListView gv = findViewById(R.id.TrainView);
-        gv.setAdapter(new ArrayAdapter<String>(MainActivity.this, R.layout.support_simple_spinner_dropdown_item, getDataForListView()));
+        db_train.open();
+        Cursor t = db_train.getAllDataFromTable("Train");
+
+
+        if(t.getCount() != 0)
+            gv.setAdapter(new ArrayAdapter<String>(MainActivity.this, R.layout.support_simple_spinner_dropdown_item, getDataForListView()));
+
+        db_train.close();
         gv.setOnItemClickListener(onItemClickListener);
 
 
@@ -137,9 +145,6 @@ public class MainActivity extends AppCompatActivity {
     {
         db_train.open();
         Cursor t = db_train.getAllDataFromTable("Train");
-
-        if(t.getCount() == 0)
-            return new String[]{};
 
         t.moveToFirst();
 

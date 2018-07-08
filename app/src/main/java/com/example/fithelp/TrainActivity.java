@@ -28,11 +28,13 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import models.Exercise;
+import models.Train;
 
 public class TrainActivity extends AppCompatActivity {
 
     private ArrayList<Exercise> _exercises = new ArrayList<Exercise>();
     private TextView _tv_name_of_train;
+    private Train train;
     private int position;
     private boolean IsItNew;
     private DataBase _db_train;
@@ -60,14 +62,25 @@ public class TrainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_train);
-        setTitle("Тренировка");
+        setTitle(getString(R.string.title_train));
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+        IsItNew = (boolean) getIntent().getSerializableExtra("IsItNew");
         _db_train = new DataBase(this, MainActivity.TRAIN_DATABASE_NAME, MainActivity.listOfSqlExec.TrainSql);
 
+        ListView train_list = findViewById(R.id.ListView_train_activity);
         _tv_name_of_train = findViewById(R.id.textView_NameOfTrain);
-        IsItNew = (boolean) getIntent().getSerializableExtra("IsItNew");
+        FloatingActionButton fab = findViewById(R.id.ActionBtn_activityTrain);
+
+
+        train_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                NewAlertDialog(adapterView.getAdapter().getItem(i).toString());
+            }
+        });
 
         _tv_name_of_train.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,20 +89,16 @@ public class TrainActivity extends AppCompatActivity {
             }
         });
 
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(TrainActivity.this, ExerciseActivity.class);
+                Intent intent = new Intent(TrainActivity.this, ExerciseChoiceActivity.class);
                 startActivity(intent);
             }
         });
 
         setDataOnActivity();
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -109,7 +118,7 @@ public class TrainActivity extends AppCompatActivity {
         }
         else
         {
-            NewAlertDialog1("");
+            NewAlertDialog();
         }
     }
 
@@ -118,73 +127,50 @@ public class TrainActivity extends AppCompatActivity {
         NewAlertDialog("");
     }
 
-    public void NewAlertDialog1(String begin_value)
-    {
-        final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-        final EditText dialog_text_view = new EditText(this);
-
-        dialog.setTitle("Название тренировки:");
-        dialog.setView(dialog_text_view);
-
-        dialog_text_view.setMaxLines(1);
-        dialog_text_view.setMaxEms(13);
-        dialog_text_view.setText(begin_value);
-
-        dialog.setPositiveButton("Готово",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        _tv_name_of_train.setText(dialog_text_view.getText().toString());
-                        _db_train.open();
-                        _db_train.add("Train", "name", _tv_name_of_train.getText().toString());
-                        _db_train.close();
-                        dialog.cancel();
-                    }
-                })
-                .setNegativeButton("Отмена",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-
-        dialog.create();
-        dialog.show();
-    }
-
     public void NewAlertDialog(String begin_value)
     {
         final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         final EditText dialog_text_view = new EditText(this);
 
-        dialog.setTitle("Название тренировки:");
+        dialog.setTitle(getString(R.string.title_name_of_train) + ":");
         dialog.setView(dialog_text_view);
 
         dialog_text_view.setMaxLines(1);
         dialog_text_view.setMaxEms(13);
         dialog_text_view.setText(begin_value);
 
-        dialog.setPositiveButton("Готово",
+        dialog.setPositiveButton(getString(R.string.btn_ok),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         _tv_name_of_train.setText(dialog_text_view.getText().toString());
-                        ContentValues cv = new ContentValues();
-                        cv.put("name", _tv_name_of_train.getText().toString());
                         _db_train.open();
-                        _db_train.update("Train", cv, "id = ?", new String[]{String.valueOf(position + 1)});
+                        if(IsItNew) {
+                            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+                            String currentDate = sdf.format(new Date());
+                            ArrayList<String[]> args = new ArrayList<String[]>();
+                            args.add(new String[]{"name", dialog_text_view.getText().toString()});
+                            args.add(new String[]{"data", currentDate});
+                            _db_train.add("Train", args);
+                        }
+                        else {
+                            ContentValues cv = new ContentValues();
+                            cv.put("name", _tv_name_of_train.getText().toString());
+                            _db_train.update("Train", cv, "id = ?", new String[]{String.valueOf(position + 1)});
+                        }
                         _db_train.close();
                         dialog.cancel();
                     }
                 })
-                .setNegativeButton("Отмена",
+                .setNegativeButton(getString(R.string.btn_cancel),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 dialog.cancel();
+                                if(IsItNew)
+                                    finish();
                             }
                         });
 
         dialog.create();
         dialog.show();
     }
-
-
 }

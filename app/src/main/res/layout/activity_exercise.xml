@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ExerciseActivity">
 
+
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,15 +24,5 @@
     <include
         android:id="@+id/include2"
         layout="@layout/content_exercise" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingActionButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:clickable="true"
-        app:layout_anchor="@+id/include2"
-        app:layout_anchorGravity="right|center"
-        app:srcCompat="@drawable/ic_stat_add" />
 
 </android.support.design.widget.CoordinatorLayout>

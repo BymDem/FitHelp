@@ -9,16 +9,23 @@ public class Train {
     private Date date;
     private int id;
 
+
+    public Train()
+    {
+
+    }
     public Train(Train d)
     {
         name = d.name;
         date = d.date;
+        id = d.id;
     }
 
-    public Train(String n, Date d)
+    public Train(String n, Date d, int i)
     {
         name = n;
         date = d;
+        id = i;
     }
 
     public String getName()
